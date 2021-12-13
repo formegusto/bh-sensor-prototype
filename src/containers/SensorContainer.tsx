@@ -48,7 +48,7 @@ function SensorContainer(props: SensorContainerProps) {
       const encryptJson = _.cloneDeep(requestJson);
       requestBodyEncrypt(encryptJson);
 
-      console.log(encryptJson);
+      // console.log(encryptJson);
       const result = await axios.post(
         "http://localhost:8080/admin/humanData",
         encryptJson,

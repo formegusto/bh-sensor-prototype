@@ -65,7 +65,7 @@ class ARIAEngine {
     exp[0] = 1;
     for (let i = 1; i < 256; i++) {
       let j: number = (exp[i - 1] << 1) ^ exp[i - 1];
-      if ((j & 0x100) != 0) j ^= 0x11b;
+      if ((j & 0x100) !== 0) j ^= 0x11b;
       exp[i] = j;
     }
     for (let i = 1; i < 255; i++) log[exp[i]] = i;
@@ -99,7 +99,7 @@ class ARIAEngine {
       for (let j = 0; j < 8; j++) {
         let s = 0;
         for (let k = 0; k < 8; k++) {
-          if (((p >>> (7 - k)) & 0x01) != 0) s ^= A[k][j];
+          if (((p >>> (7 - k)) & 0x01) !== 0) s ^= A[k][j];
         }
         t = (t << 1) ^ s;
       }
@@ -110,12 +110,12 @@ class ARIAEngine {
     for (let i = 0; i < 256; i++) {
       let t = 0,
         p;
-      if (i == 0) p = 0;
+      if (i === 0) p = 0;
       else p = exp[(247 * log[i]) % 255];
       for (let j = 0; j < 8; j++) {
         let s = 0;
         for (let k = 0; k < 8; k++) {
-          if (((p >>> k) & 0x01) != 0) s ^= B[7 - j][k];
+          if (((p >>> k) & 0x01) !== 0) s ^= B[7 - j][k];
         }
         t = (t << 1) ^ s;
       }
@@ -286,7 +286,7 @@ class ARIAEngine {
     t2 = w1[2];
     t3 = w1[3];
 
-    q = q == 2 ? 0 : q + 1;
+    q = q === 2 ? 0 : q + 1;
     t0 ^= ARIAEngine.KRK[q][0];
     t1 ^= ARIAEngine.KRK[q][1];
     t2 ^= ARIAEngine.KRK[q][2];
@@ -337,7 +337,7 @@ class ARIAEngine {
     w2[2] = t2;
     w2[3] = t3;
 
-    q = q == 2 ? 0 : q + 1;
+    q = q === 2 ? 0 : q + 1;
     t0 ^= ARIAEngine.KRK[q][0];
     t1 ^= ARIAEngine.KRK[q][1];
     t2 ^= ARIAEngine.KRK[q][2];
@@ -560,7 +560,7 @@ class ARIAEngine {
         this.setupEncRoundKeys();
       }
     }
-    this.decRoundKeys = <number[]>[...this.encRoundKeys!];
+    this.decRoundKeys = [...this.encRoundKeys!] as number[];
     ARIAEngine.doDecKeySetup(this.masterKey!, this.decRoundKeys, this.keySize);
   }
 
@@ -820,7 +820,7 @@ class ARIAEngine {
     const c: Uint8Array = new Uint8Array(16);
     const mk: Uint8Array = new Uint8Array(32);
 
-    let flag: boolean = false;
+    // let flag: boolean = false;
     const instance: ARIAEngine = new ARIAEngine(256);
 
     /*

@@ -49,6 +49,9 @@ export function encryptProcess(plainText: string): Uint8Array {
     cipherBuffer.set(c, idx * 16);
   });
 
+  const isZeroExist = cipherBuffer.indexOf(0);
+  if (isZeroExist > -1) cipherBuffer = cipherBuffer.slice(0, isZeroExist);
+
   return cipherBuffer;
 }
 
