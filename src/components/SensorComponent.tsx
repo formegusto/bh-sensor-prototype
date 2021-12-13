@@ -10,6 +10,7 @@ export type SensorComponentProps = {
 
 interface props extends SensorComponentProps {
   requestJson: string | null;
+  responseJson: string | null;
 }
 
 function SensorComponent({
@@ -18,6 +19,7 @@ function SensorComponent({
   includeSensors,
   inGateway,
   requestJson,
+  responseJson,
 }: props) {
   return (
     <SensorBlock>
@@ -44,7 +46,11 @@ function SensorComponent({
             </code>
           </Gateway>
         )}
-        <Response></Response>
+        <Response>
+          <code>
+            <pre>{responseJson}</pre>
+          </code>
+        </Response>
       </Body>
     </SensorBlock>
   );
@@ -108,6 +114,10 @@ const Response = styled.div`
   border: 1px solid #333;
 
   margin: 0 0 0 20px;
+  padding: 10px 20px;
+
+  font-size: 12px;
+  overflow: scroll;
 `;
 
 export default SensorComponent;

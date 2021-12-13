@@ -14,6 +14,7 @@ interface SensorContainerProps extends SensorComponentProps {
 
 function SensorContainer(props: SensorContainerProps) {
   const [requestJson, setRequestJson] = React.useState<string | null>(null);
+  const [responseJson, setResponseJson] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     setInterval(async () => {
@@ -49,20 +50,31 @@ function SensorContainer(props: SensorContainerProps) {
       requestBodyEncrypt(encryptJson);
 
       // console.log(encryptJson);
-      const result = await axios.post(
-        "http://localhost:8080/admin/humanData",
-        encryptJson,
-        {
-          headers: {
-            authorization: process.env.REACT_APP_REQUEST_ADMIN_KEY!,
-          },
-        }
-      );
-      console.log(result);
+      try {
+        const result = await axios.post(
+          "http://localhost:8080/admin/humanData",
+          encryptJson,
+          {
+            headers: {
+              authorization: process.env.REACT_APP_REQUEST_ADMIN_KEY!,
+            },
+          }
+        );
+        console.log(result);
+        setResponseJson(JSON.stringify(result.data, null, "\t"));
+      } catch (err) {
+        setResponseJson("error!");
+      }
     }, props.interval * 1000);
   }, [props]);
 
-  return <SensorComponent {...props} requestJson={requestJson} />;
+  return (
+    <SensorComponent
+      {...props}
+      requestJson={requestJson}
+      responseJson={responseJson}
+    />
+  );
 }
 
 export default SensorContainer;

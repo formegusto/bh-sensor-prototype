@@ -33,14 +33,19 @@ export function encryptProcess(plainText: string): Uint8Array {
   const pt = stringToByte(plainText, "unicode");
   const pt16: Uint8Array[] = [];
 
+  console.log(plainText, pt);
   pt.forEach((p, i) => {
     if ((i + 1) % 16 === 0 || i + 1 === pt.length) {
-      pt16.push(pt.slice(Math.floor(i / 16) * 16, i + 1));
+      const _p = new Uint8Array(16);
+      _p.set(pt.slice(Math.floor(i / 16) * 16, i + 1));
+
+      pt16.push(_p);
     }
   });
+  console.log(pt16);
 
   let cipherBuffer: Uint8Array = new Uint8Array(
-    (Math.floor(pt.length / 16) + 1) * 16
+    (Math.floor((pt.length - 1) / 16) + 1) * 16
   );
   pt16.forEach((p, idx) => {
     const c: Uint8Array = new Uint8Array(16);
@@ -49,8 +54,8 @@ export function encryptProcess(plainText: string): Uint8Array {
     cipherBuffer.set(c, idx * 16);
   });
 
-  const isZeroExist = cipherBuffer.indexOf(0);
-  if (isZeroExist > -1) cipherBuffer = cipherBuffer.slice(0, isZeroExist);
+  // const isZeroExist = cipherBuffer.indexOf(0);
+  // if (isZeroExist > -1) cipherBuffer = cipherBuffer.slice(0, isZeroExist);
 
   return cipherBuffer;
 }
