@@ -62,8 +62,7 @@ function SensorContainer(props: SensorContainerProps) {
             },
           }
         );
-        console.log(result);
-        setResponseJson(JSON.stringify(result.data, null, "\t"));
+        setResponseJson(JSON.stringify(result.data["encryptBody"], null, "\t"));
       } catch (err) {
         setResponseJson("error!");
       }
