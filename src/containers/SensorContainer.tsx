@@ -53,10 +53,12 @@ function SensorContainer(props: SensorContainerProps) {
       try {
         const result = await axios.post(
           "http://localhost:8080/admin/humanData",
-          encryptJson,
+          requestJson,
           {
             headers: {
               authorization: process.env.REACT_APP_REQUEST_ADMIN_KEY!,
+              "Request-Encrypt": "plain",
+              "Response-Encrypt": "community",
             },
           }
         );
