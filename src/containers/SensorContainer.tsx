@@ -3,7 +3,7 @@ import SensorComponent, {
   SensorComponentProps,
 } from "../components/SensorComponent";
 import { Building } from "../types";
-import { requestBodyEncrypt } from "../utils/ARIAUtils";
+import { encryptProcess, requestBodyEncrypt } from "../utils/ARIAUtils";
 import _ from "lodash";
 import axios from "axios";
 
@@ -46,23 +46,24 @@ function SensorContainer(props: SensorContainerProps) {
       };
       setRequestJson(JSON.stringify(requestJson, null, "\t"));
 
-      const encryptJson = _.cloneDeep(requestJson);
-      requestBodyEncrypt(encryptJson);
+      const bodyStr = JSON.stringify(requestJson);
+      const encBodyStr = encryptProcess(bodyStr);
 
-      console.log(encryptJson);
       try {
         const result = await axios.post(
           "http://localhost:8080/admin/humanData",
-          requestJson,
+          {
+            encryptBody: encBodyStr,
+          },
           {
             headers: {
               authorization: process.env.REACT_APP_REQUEST_ADMIN_KEY!,
-              "Request-Encrypt": "plain",
+              "Request-Encrypt": "community",
               "Response-Encrypt": "community",
             },
           }
         );
-        setResponseJson(JSON.stringify(result.data["encryptBody"], null, "\t"));
+        setResponseJson(result.data["encryptBody"]);
       } catch (err) {
         setResponseJson("error!");
       }
