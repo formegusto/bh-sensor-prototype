@@ -3,8 +3,7 @@ import SensorComponent, {
   SensorComponentProps,
 } from "../components/SensorComponent";
 import { Building } from "../types";
-import { encryptProcess, requestBodyEncrypt } from "../utils/ARIAUtils";
-import _ from "lodash";
+import { encryptProcess } from "../utils/ARIAUtils";
 import axios from "axios";
 
 interface SensorContainerProps extends SensorComponentProps {
@@ -38,10 +37,9 @@ function SensorContainer(props: SensorContainerProps) {
       );
 
       const requestJson = {
-        building: props.building,
-        sensor: {
-          name: props.name,
-        },
+        building: props.building.name,
+        unit: props.building.ho,
+        sensor: props.name,
         information,
       };
       setRequestJson(JSON.stringify(requestJson, null, "\t"));
@@ -51,19 +49,18 @@ function SensorContainer(props: SensorContainerProps) {
 
       try {
         const result = await axios.post(
-          "http://localhost:8080/admin/humanData",
-          {
-            encryptBody: encBodyStr,
-          },
+          "http://localhost:8080/admin/bems-hdms",
+          encBodyStr,
           {
             headers: {
               authorization: process.env.REACT_APP_REQUEST_ADMIN_KEY!,
+              "Content-Type": "text/plain",
               "Request-Encrypt": "community",
               "Response-Encrypt": "community",
             },
           }
         );
-        setResponseJson(result.data["encryptBody"]);
+        setResponseJson(result.data);
       } catch (err) {
         setResponseJson("error!");
       }
