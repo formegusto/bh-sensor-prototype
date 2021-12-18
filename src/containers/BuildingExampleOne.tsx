@@ -44,8 +44,8 @@ function BuildingExampleOne() {
         />
         <SensorContainer
           building={buildingInfo}
-          name="습도"
-          title="습도 센서"
+          name="온도,습도,조도 게이트웨이"
+          title="온습조도 게이트웨이"
           interval={15}
           includeSensors={sensorTypeThree}
           inGateway
