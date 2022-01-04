@@ -19,8 +19,8 @@ const sensorTypeFour: Sensor[] = [ResidentCountSensor];
 
 function BuildingExampleOne() {
   const buildingInfo: Building = {
-    name: "하늘 아파트",
-    ho: "101호",
+    name: "동신대학교 중앙도서관",
+    ho: "대출/반납실",
   };
   return (
     <Wrap>

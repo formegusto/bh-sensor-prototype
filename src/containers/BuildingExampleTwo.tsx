@@ -17,8 +17,8 @@ const sensorTypeFour: Sensor[] = [ResidentDistributionSensor];
 
 function BuildingExampleTwo() {
   const buildingInfo: Building = {
-    name: "하늘 아파트",
-    ho: "102호",
+    name: "동신대학교 중앙도서관",
+    ho: "2층 자기주도 학습실",
   };
   return (
     <Wrap>
